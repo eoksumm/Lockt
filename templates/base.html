@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lockt</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            padding: 40px 16px;
+        }
+        .wrap {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 22px;
+            margin-bottom: 24px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: #444;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 9px 11px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus { outline: none; border-color: #888; }
+        button, .btn {
+            background: #222;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover, .btn:hover { background: #444; }
+        .msg {
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            border-radius: 5px;
+            font-size: 13px;
+            background: #fde;
+            color: #900;
+            border: 1px solid #fcc;
+        }
+        a { color: #555; }
+        a:hover { color: #222; }
+        p { margin-top: 14px; font-size: 13px; color: #666; }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Lockt</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          <div class="msg">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
