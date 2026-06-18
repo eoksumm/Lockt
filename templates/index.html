@@ -1,4 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
-<p>Hey {{ username }} — <a href="{{ url_for('logout') }}">log out</a></p>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <span style="font-size:14px;color:#8E8E93;">Hey, <strong style="color:#1C1C1E;">{{ username }}</strong></span>
+    <a href="{{ url_for('logout') }}" style="font-size:13px;color:#8E8E93;">Log out</a>
+</div>
+
+<div style="display:flex;gap:8px;margin-bottom:24px;">
+    <a class="btn" href="{{ url_for('add') }}">+ Add</a>
+    <a class="btn btn-ghost" href="{{ url_for('generate') }}">Generate</a>
+</div>
+
+{% if entries %}
+<table style="width:100%;border-collapse:collapse;font-size:14px;">
+    <thead>
+        <tr style="border-bottom:1.5px solid #E5E5EA;">
+            <th style="text-align:left;padding:7px 8px;font-size:11px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;">Service</th>
+            <th style="text-align:left;padding:7px 8px;font-size:11px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;">Username / Email</th>
+            <th style="text-align:left;padding:7px 8px;font-size:11px;font-weight:600;color:#8E8E93;text-transform:uppercase;letter-spacing:.5px;">Password</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in entries %}
+        <tr style="border-bottom:1px solid #F2F2F7;">
+            <td style="padding:11px 8px;font-weight:500;">{{ e.service }}</td>
+            <td style="padding:11px 8px;color:#3A3A3C;">{{ e.username }}</td>
+            <td style="padding:11px 8px;">
+                <span id="pw-{{ e.id }}" style="display:none;font-family:monospace;font-size:13px;color:#1C1C1E;">{{ e.password }}</span>
+                <span id="mask-{{ e.id }}" style="color:#C7C7CC;letter-spacing:2px;">••••••</span>
+                <button type="button" onclick="togglePw({{ e.id }})" id="btn-{{ e.id }}"
+                    style="background:none;border:none;cursor:pointer;color:#8E8E93;font-size:12px;font-family:inherit;padding:0 4px;">show</button>
+            </td>
+            <td style="padding:11px 8px;text-align:right;">
+                <form method="POST" action="{{ url_for('delete', entry_id=e.id) }}" style="display:inline;" onsubmit="return confirm('Delete this entry?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <button type="submit" style="background:none;border:none;cursor:pointer;color:#C7C7CC;font-size:13px;font-family:inherit;">delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p style="color:#C7C7CC;text-align:center;padding:32px 0;">No passwords saved yet.</p>
+{% endif %}
+
+<script>
+function togglePw(id) {
+    var pw = document.getElementById('pw-' + id);
+    var mask = document.getElementById('mask-' + id);
+    var btn = document.getElementById('btn-' + id);
+    if (pw.style.display === 'none') {
+        pw.style.display = 'inline';
+        mask.style.display = 'none';
+        btn.textContent = 'hide';
+    } else {
+        pw.style.display = 'none';
+        mask.style.display = 'inline';
+        btn.textContent = 'show';
+    }
+}
+</script>
 {% endblock %}

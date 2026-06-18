@@ -9,6 +9,7 @@ python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip -q
 pip install -r requirements.txt
+python3 -c "from db import init_db; init_db()"
 
 echo ""
 echo "Done. To start:"
