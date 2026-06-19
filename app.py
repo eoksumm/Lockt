@@ -29,7 +29,7 @@ def register_page():
             flash('Please fill in all fields.')
             return render_template('register.html')
         if register(username, password):
-            flash('Account created! You can log in now.')
+            flash('Account created! You can log in now.', 'ok')
             return redirect(url_for('login_page'))
         flash('That username is already taken.')
     return render_template('register.html')
@@ -67,7 +67,7 @@ def add():
             return render_template('add.html')
         add_password(session['user_id'], service, username, password,
                      session['master_password'], session['salt'])
-        flash('Saved.')
+        flash('Saved.', 'ok')
         return redirect(url_for('index'))
     return render_template('add.html')
 

@@ -7,8 +7,24 @@
     <label>Username / Email</label>
     <input type="text" name="service_username" placeholder="user@example.com" autocomplete="off" required>
     <label>Password</label>
-    <input type="password" name="password" autocomplete="off" required>
+    <div class="pw-wrap">
+        <input type="password" id="pw" name="password" autocomplete="off" required>
+        <button type="button" class="eye-btn" onclick="toggleEye('pw', this)">show</button>
+    </div>
     <button type="submit" style="width:100%;">Save</button>
 </form>
 <p style="text-align:center;"><a href="{{ url_for('index') }}">&larr; Back</a></p>
+
+<script>
+function toggleEye(id, btn) {
+    var input = document.getElementById(id);
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'hide';
+    } else {
+        input.type = 'password';
+        btn.textContent = 'show';
+    }
+}
+</script>
 {% endblock %}

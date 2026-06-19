@@ -4,6 +4,7 @@
     <code id="gen-pw" style="font-size:15px;font-family:monospace;color:#1C1C1E;letter-spacing:1px;word-break:break-all;">{{ new_password }}</code>
     <button id="copy-btn" type="button" onclick="doCopy()" class="btn-ghost btn" style="flex-shrink:0;padding:7px 14px;font-size:13px;">Copy</button>
 </div>
+<a class="btn btn-ghost" href="{{ url_for('generate') }}" style="display:block;text-align:center;margin-bottom:4px;">New password</a>
 <p style="text-align:center;"><a href="{{ url_for('index') }}">&larr; Back</a></p>
 
 <script>

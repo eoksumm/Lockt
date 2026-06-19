@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lockt</title>
-    <link rel="icon" href="{{ url_for('static', filename='lock.ico') }}">
+    <link rel="icon" href="{{ url_for('static', filename='lock.gif') }}">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -78,6 +78,37 @@
             background: #fff;
         }
 
+        .pw-wrap {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .pw-wrap input {
+            margin-bottom: 0;
+            padding-right: 52px;
+        }
+
+        .eye-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #AEAEB2;
+            font-size: 12px;
+            font-family: inherit;
+            padding: 4px;
+            font-weight: 500;
+            transition: color .15s;
+        }
+
+        .eye-btn:hover {
+            background: none;
+            color: #636366;
+        }
+
         button, .btn {
             background: #1C1C1E;
             color: #fff;
@@ -103,6 +134,20 @@
 
         .btn-ghost:hover { background: #E8E8ED; }
 
+        .btn-danger {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #C7C7CC;
+            font-size: 13px;
+            font-family: inherit;
+            padding: 0;
+            font-weight: 400;
+            transition: color .15s;
+        }
+
+        .btn-danger:hover { background: none; color: #FF3B30; }
+
         .msg {
             padding: 10px 14px;
             margin-bottom: 16px;
@@ -111,6 +156,12 @@
             background: #FFF2F2;
             color: #FF3B30;
             border: 1px solid #FFD5D5;
+        }
+
+        .msg-ok {
+            background: #F0FFF4;
+            color: #28A745;
+            border: 1px solid #C3E6CB;
         }
 
         a { color: #636366; text-decoration: none; }
@@ -124,10 +175,10 @@
     <img class="logo" src="{{ url_for('static', filename='lock.gif') }}" alt="">
     <div class="wrap">
         <div class="brand">Lockt</div>
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-            {% for msg in messages %}
-              <div class="msg">{{ msg }}</div>
+            {% for category, msg in messages %}
+              <div class="msg {% if category == 'ok' %}msg-ok{% endif %}">{{ msg }}</div>
             {% endfor %}
           {% endif %}
         {% endwith %}
