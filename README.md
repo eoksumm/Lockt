@@ -1,6 +1,6 @@
 # Lockt
 
-A local password manager built with Flask. Passwords are encrypted in the database — even if someone gets the database file, they can't read anything without your master password.
+A local secure password manager built with Flask.
 
 ## Features
 
