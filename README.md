@@ -5,10 +5,12 @@ A local secure password manager built with Flask.
 ## Features
 
 - Register and log in with a master password
-- Add, view, and delete saved passwords
+- Add, edit, view, and delete saved passwords
 - Passwords stored encrypted (AES via Fernet + PBKDF2 key derivation)
 - Show/hide toggle and copy-to-clipboard on every vault entry
 - Built-in password generator
+- Password strength meter on registration
+- Have I Been Pwned breach check (k-anonymity, no password ever sent)
 - CSRF protection on all forms
 
 ## Setup

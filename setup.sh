@@ -11,6 +11,10 @@ pip install --upgrade pip -q
 pip install -r requirements.txt
 python3 -c "from db import init_db; init_db()"
 
+if [ ! -f .secret_key ]; then
+    python3 -c "import secrets; print(secrets.token_hex(32))" > .secret_key
+fi
+
 echo ""
 echo "Done. To start:"
 echo "  source venv/bin/activate"

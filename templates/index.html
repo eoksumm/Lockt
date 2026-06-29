@@ -8,6 +8,7 @@
 <div style="display:flex;gap:8px;margin-bottom:24px;">
     <a class="btn" href="{{ url_for('add') }}">+ Add</a>
     <a class="btn btn-ghost" href="{{ url_for('generate') }}">Generate</a>
+    <a class="btn btn-ghost" href="{{ url_for('pwned') }}">Check</a>
 </div>
 
 {% if entries %}
@@ -30,10 +31,12 @@
                 <span id="mask-{{ e.id }}" style="color:#C7C7CC;letter-spacing:2px;">••••••</span>
                 <button type="button" onclick="togglePw({{ e.id }})" id="btn-{{ e.id }}"
                     style="background:none;border:none;cursor:pointer;color:#AEAEB2;font-size:12px;font-family:inherit;padding:0 6px;font-weight:500;">show</button>
-                <button type="button" onclick="copyPw({{ e.id }})" id="copy-{{ e.id }}"
+                <button type="button" onclick="copyPw({{ e.id }})" id="copy-{{ e.id }}" data-pw="{{ e.password }}"
                     style="background:none;border:none;cursor:pointer;color:#AEAEB2;font-size:12px;font-family:inherit;padding:0 2px;font-weight:500;">copy</button>
             </td>
-            <td style="padding:11px 8px;text-align:right;">
+            <td style="padding:11px 8px;text-align:right;white-space:nowrap;">
+                <a href="{{ url_for('edit', entry_id=e.id) }}"
+                   style="color:#AEAEB2;font-size:12px;font-weight:500;margin-right:10px;">edit</a>
                 <form method="POST" action="{{ url_for('delete', entry_id=e.id) }}" style="display:inline;" onsubmit="return confirm('Delete this entry?')">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <button type="submit" class="btn-danger">delete</button>
@@ -64,8 +67,8 @@ function togglePw(id) {
 }
 
 function copyPw(id) {
-    var pw = document.getElementById('pw-' + id).textContent;
     var btn = document.getElementById('copy-' + id);
+    var pw = btn.dataset.pw;
     navigator.clipboard.writeText(pw).then(function() {
         btn.textContent = 'copied!';
         btn.style.color = '#34C759';

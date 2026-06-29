@@ -4,10 +4,16 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <label>Username</label>
     <input type="text" name="username" autocomplete="username" required>
-    <label>Password</label>
+    <label>Master password</label>
     <div class="pw-wrap">
-        <input type="password" id="pw" name="password" autocomplete="new-password" required>
+        <input type="password" id="pw" name="password" autocomplete="new-password" required oninput="updateStrength(this.value)">
         <button type="button" class="eye-btn" onclick="toggleEye('pw', this)">show</button>
+    </div>
+    <div style="margin-top:-8px;margin-bottom:14px;">
+        <div style="height:4px;border-radius:2px;background:#E5E5EA;overflow:hidden;">
+            <div id="strength-bar" style="height:100%;width:0;border-radius:2px;transition:width .2s,background .2s;"></div>
+        </div>
+        <div id="strength-label" style="font-size:11px;margin-top:4px;color:#8E8E93;"></div>
     </div>
     <button type="submit" style="width:100%;">Create account</button>
 </form>
@@ -23,6 +29,40 @@ function toggleEye(id, btn) {
         input.type = 'password';
         btn.textContent = 'show';
     }
+}
+
+function updateStrength(pw) {
+    var bar = document.getElementById('strength-bar');
+    var lbl = document.getElementById('strength-label');
+
+    if (!pw) {
+        bar.style.width = '0';
+        lbl.textContent = '';
+        return;
+    }
+
+    var score = 0;
+    if (pw.length >= 8)  score++;
+    if (pw.length >= 12) score++;
+    if (/[A-Z]/.test(pw)) score++;
+    if (/[a-z]/.test(pw)) score++;
+    if (/[0-9]/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+    var levels = [
+        { label: 'Weak',        color: '#FF3B30', pct: '25%'  },
+        { label: 'Weak',        color: '#FF3B30', pct: '25%'  },
+        { label: 'Fair',        color: '#FF9500', pct: '50%'  },
+        { label: 'Fair',        color: '#FF9500', pct: '50%'  },
+        { label: 'Strong',      color: '#34C759', pct: '75%'  },
+        { label: 'Strong',      color: '#34C759', pct: '75%'  },
+        { label: 'Very strong', color: '#30D158', pct: '100%' },
+    ];
+    var lvl = levels[Math.min(score, 6)];
+    bar.style.width      = lvl.pct;
+    bar.style.background = lvl.color;
+    lbl.style.color      = lvl.color;
+    lbl.textContent      = lvl.label;
 }
 </script>
 {% endblock %}
